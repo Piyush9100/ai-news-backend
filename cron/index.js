@@ -5,8 +5,7 @@ const cron = require('node-cron');
 const { createClient } = require('@supabase/supabase-js');
 const { slugify } = require('../app/types');
 
-require("fs").writeFileSync("/home/u723371219/domains/slategrey-fox-987184.hostingersite.com/public_html/env_test.log", String(process.env.NEXT_PUBLIC_SUPABASE_URL=https://saakakqztsadggjqtont.supabase.co
-))
+require("fs").writeFileSync("/home/u723371219/env_test.log", String(process.env.NEXT_PUBLIC_SUPABASE_URL))
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
