@@ -1,6 +1,4 @@
-require("dotenv").config({
-  path: "/home/u723371219/domains/slategrey-fox-987184.hostingersite.com/public_html/.env"
-});
+require("dotenv").config();
 const cron = require('node-cron');
 const { createClient } = require('@supabase/supabase-js');
 const { slugify } = require('../app/types');
@@ -61,7 +59,7 @@ async function refreshCategory(category) {
   console.log(`🆕 Updating cache: ${category}`);
 
   const shortenRes = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/shorten-title`,
+    `http://localhost:${process.env.PORT || 3000}/api/shorten-title`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -72,7 +70,7 @@ async function refreshCategory(category) {
   const { shortenedTitles } = await shortenRes.json();
 
   const canvasRes = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/generate-canvas`,
+    `http://localhost:${process.env.PORT || 3000}/api/generate-canvas`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -112,6 +110,7 @@ async function autoPostFromCache() {
     .eq('category', 'general')
     .single();
   console.log('cache', cache);
+  console.log('cache.images structure:', cache?.images);
   
   if (!cache) return;
 
@@ -130,6 +129,12 @@ async function autoPostFromCache() {
       console.log('slug', slug);
       console.log('existingSlugs.has(slug)', existingSlugs.has(slug));
       if (existingSlugs.has(slug)) continue;
+
+      // Check if image exists and has publicUrl
+      if (!cache.images || !cache.images[i] || !cache.images[i].publicUrl) {
+        console.error(`Missing image data for index ${i}:`, cache.images?.[i]);
+        continue;
+      }
 
       const { data, error } = await supabase
         .from('instagram_posts')
@@ -221,7 +226,7 @@ cron.schedule('0 */6 * * *', async () => {
 });
 
 // ---------------- CRON ----------------
-cron.schedule('*/2 * * * *', async () => {
+cron.schedule('*/30 * * * *', async () => {
   console.log('🕒 post instagram cron');
 
   //--- comment this for insta stop run cron --- // 

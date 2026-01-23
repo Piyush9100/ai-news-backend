@@ -2,21 +2,32 @@
   "name": "express-cron-service",
   "version": "1.0.0",
   "description": "Node.js Express service with cron jobs",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "build": "tsc",
+    "start": "npm run build && node dist/server.js",
+    "dev": "ts-node server.ts",
+    "dev:watch": "nodemon --exec ts-node server.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.38.4",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "node-cron": "^4.2.1",
-    "dotenv": "^16.3.1",
-    "@supabase/supabase-js": "^2.38.4"
+    "puppeteer": "^24.36.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.10",
+    "nodemon": "^3.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   },
-  "keywords": ["express", "cron", "node"],
+  "keywords": [
+    "express",
+    "cron",
+    "node"
+  ],
   "author": "",
   "license": "MIT"
 }
