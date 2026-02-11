@@ -165,7 +165,7 @@ async function autoPostFromCache() {
     console.log('✅ Instagram post published');
 }
 // ---------------- CRON ----------------
-cron.schedule('0 */6 * * *', async () => {
+cron.schedule('*/15 * * * *', async () => {
     console.log('🕒 News Fetch Cron started');
     for (const category of CATEGORIES) {
         try {

@@ -31,7 +31,7 @@ app.get('/health', (req, res) => {
         uptime: process.uptime(),
         timestamp: new Date().toISOString(),
         cronJobs: {
-            newsFetch: 'Every 6 hours',
+            newsFetch: 'Every 15 minutes',
             instagramPost: 'Every 30 minutes'
         }
     });
@@ -42,7 +42,7 @@ app.get('/cron-status', (req, res) => {
         jobs: [
             {
                 name: 'News Fetch',
-                schedule: '0 */6 * * *',
+                schedule: '*/15 * * * *',
                 description: 'Fetches news from GNews API and updates cache'
             },
             {
@@ -71,7 +71,7 @@ app.listen(PORT, () => {
     console.log(`Cron status available at http://localhost:${PORT}/cron-status`);
     console.log(`Canvas API available at http://localhost:${PORT}/api/generate-canvas`);
     console.log(`Title shortening API available at http://localhost:${PORT}/api/shorten-title`);
-    console.log('News fetch cron: Every 6 hours');
+    console.log('News fetch cron: Every 15 minutes');
     console.log('Instagram post cron: Every 30 minutes');
     console.log('Server heartbeat cron: Every minute');
 });
